@@ -9,7 +9,7 @@ const AvailableMeals = () => {
   const [isLoading, setIsLoading] = useState(true)
 
   //no default value
-  const [httpError, setHttpErro] = useState()
+  const [httpError, setHttpError] = useState()
 
   //function passed to useEffect should not return a promise
   //may return a cleanup function, which should run synchronously
@@ -44,7 +44,15 @@ const AvailableMeals = () => {
       setIsLoading(false)
     }
 
-    fecthMeals()
+    try {
+      fecthMeals()
+    } catch (error) {
+
+      setIsLoading(false)
+      setHttpError(error.message)
+
+    }
+
   }, []);
 
 
