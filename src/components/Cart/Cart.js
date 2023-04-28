@@ -18,7 +18,17 @@ const Cart = (props) => {
   const cartItemAddHandler = (item) => {
     cartCtx.addItem({ ...item, amount: 1 });
   };
+  //need curly brace if more than one epxression
+  // Cart.items.map((item) => {
+  //   if ( a> 0) {
+  //     return <SomeCompoennt />
+  //   }
+  //   return <CartItem />
+  // });
 
+  // is equivalent to
+
+  Cart.items.map((item) => <CartItem />)
   const cartItems = (
     <ul className={classes['cart-items']}>
       {cartCtx.items.map((item) => (
@@ -34,6 +44,8 @@ const Cart = (props) => {
     </ul>
   );
 
+
+  //parens just for syntatical purposes
   return (
     <Modal onClose={props.onClose}>
       {cartItems}
