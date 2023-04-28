@@ -1,7 +1,7 @@
 import Card from '../UI/Card';
 import MealItem from './MealItem/MealItem';
 import classes from './AvailableMeals.module.css';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 // const DUMMY_MEALS = [
 //   {
@@ -32,6 +32,8 @@ import { useEffect } from 'react';
 
 const AvailableMeals = () => {
 
+  const [meals, setMeals] = useState([])
+
 
   //function passed to useEffect should not return a promise
   //may return a cleanup function, which should run synchronously
@@ -53,12 +55,13 @@ const AvailableMeals = () => {
 
         })
       }
+      setMeals(loadedMeals)
     }
 
     fecthMeals()
   }, []);
 
-  const mealsList = DUMMY_MEALS.map((meal) => (
+  const mealsList = meals.map((meal) => (
     <MealItem
       key={meal.id}
       id={meal.id}
