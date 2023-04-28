@@ -3,37 +3,10 @@ import MealItem from './MealItem/MealItem';
 import classes from './AvailableMeals.module.css';
 import { useEffect, useState } from 'react';
 
-// const DUMMY_MEALS = [
-//   {
-//     id: 'm1',
-//     name: 'Sushi',
-//     description: 'Finest fish and veggies',
-//     price: 22.99,
-//   },
-//   {
-//     id: 'm2',
-//     name: 'Schnitzel',
-//     description: 'A german specialty!',
-//     price: 16.5,
-//   },
-//   {
-//     id: 'm3',
-//     name: 'Barbecue Burger',
-//     description: 'American, raw, meaty',
-//     price: 12.99,
-//   },
-//   {
-//     id: 'm4',
-//     name: 'Green Bowl',
-//     description: 'Healthy...and green...',
-//     price: 18.99,
-//   },
-// ];
-
 const AvailableMeals = () => {
 
   const [meals, setMeals] = useState([])
-
+  const [isLoading, setIsLoading] = useState(true)
 
   //function passed to useEffect should not return a promise
   //may return a cleanup function, which should run synchronously
@@ -41,6 +14,7 @@ const AvailableMeals = () => {
   useEffect(() => {
 
     const fecthMeals = async () => {
+      setIsLoading(true)
       const response = await fetch('https://react-http-fd0fb-default-rtdb.firebaseio.com/meals.json')
       const responseData = await response.json()
 
@@ -56,10 +30,21 @@ const AvailableMeals = () => {
         })
       }
       setMeals(loadedMeals)
+
+      //done loading, so remove spinner
+      setIsLoading(false)
     }
 
     fecthMeals()
   }, []);
+
+
+  //don't return component if still loading
+  if (isLoading) {
+    return <section className={classes.MealsLoading}>
+      <p>Loading ... </p>
+    </section>
+  }
 
   const mealsList = meals.map((meal) => (
     <MealItem
