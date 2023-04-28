@@ -8,6 +8,9 @@ const AvailableMeals = () => {
   const [meals, setMeals] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
+  //no default value
+  const [httpError, setHttpErro] = useState()
+
   //function passed to useEffect should not return a promise
   //may return a cleanup function, which should run synchronously
   //so create a new function inside which is asynchronous (but useEffect itself is still synchronous)
@@ -16,8 +19,14 @@ const AvailableMeals = () => {
     const fecthMeals = async () => {
       setIsLoading(true)
       const response = await fetch('https://react-http-fd0fb-default-rtdb.firebaseio.com/meals.json')
-      const responseData = await response.json()
 
+      //if error
+      if (!response.ok) {
+        throw new Error("Something went wrong!")
+      }
+      //lines after won't execute
+
+      const responseData = await response.json()
       const loadedMeals = [];
 
       for (const key in responseData) {
