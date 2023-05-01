@@ -16,6 +16,8 @@ const AvailableMeals = () => {
   //so create a new function inside which is asynchronous (but useEffect itself is still synchronous)
   useEffect(() => {
 
+
+    //good to use separate function for wrapping fetch logic
     const fecthMeals = async () => {
       setIsLoading(true)
       const response = await fetch('https://react-http-fd0fb-default-rtdb.firebaseio.com/meals.json')
@@ -63,6 +65,9 @@ const AvailableMeals = () => {
     </section>
   }
 
+  if (httpError) {
+    return <section className={classes.MealsError}> <p>{httpError}</p></section>
+  }
   const mealsList = meals.map((meal) => (
     <MealItem
       key={meal.id}
