@@ -28,7 +28,6 @@ const Cart = (props) => {
 
   // is equivalent to
 
-  Cart.items.map((item) => <CartItem />)
   const cartItems = (
     <ul className={classes['cart-items']}>
       {cartCtx.items.map((item) => (
@@ -43,7 +42,6 @@ const Cart = (props) => {
       ))}
     </ul>
   );
-
 
   //parens just for syntatical purposes
   return (
