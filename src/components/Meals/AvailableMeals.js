@@ -23,6 +23,7 @@ const AvailableMeals = () => {
       const response = await fetch('https://react-http-fd0fb-default-rtdb.firebaseio.com/meals.json')
 
       //if error
+      //throw an error inside of a promise => cause that promise to reject
       if (!response.ok) {
         throw new Error("Something went wrong!")
       }
@@ -46,14 +47,13 @@ const AvailableMeals = () => {
       setIsLoading(false)
     }
 
-    try {
-      fecthMeals()
-    } catch (error) {
 
+    //have to do async stuff since it returns a promise
+    //promise only way of handling an error
+    fecthMeals().catch(error => {
       setIsLoading(false)
       setHttpError(error.message)
-
-    }
+    })
 
   }, []);
 
