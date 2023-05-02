@@ -5,6 +5,11 @@ import classes from './Checkout.module.css';
 //useRef - don't get values with every key stroke, only get values once form is submitted
 //use refs to read whatever user entered when form is submitted
 
+//validation = check that all values are not empty and that postal code is 5 digits long
+//helper functions for validation
+const isEmpty = value => value.trim() === '';
+const isNotFiveChars = value => value.trim().length !== 5;
+
 const Checkout = (props) => {
     const nameInputRef = useRef();
     const streetInputRef = useRef();
@@ -19,6 +24,25 @@ const Checkout = (props) => {
         const enteredStreet = streetInputRef.current.value;
         const enteredPostal = postalInputRef.current.value;
         const enteredCity = cityInputRef.current.value;
+
+        //validate entered data
+        const enteredNameisValid = !isEmpty(enteredName);
+        const enteredStreetIsValid = !isEmpty(enteredStreet);
+        const enteredPostalIsValid = !isNotFiveChars(enteredPostal);
+        const enteredCityIsValid = !isEmpty(enteredCity);
+
+        const formIsValid =
+            enteredCityIsValid &&
+            enteredNameisValid &&
+            enteredPostalIsValid &&
+            enteredStreetIsValid
+
+        if (!formIsValid) {
+            return;
+        }
+
+        //Submit
+
     };
 
     return (
