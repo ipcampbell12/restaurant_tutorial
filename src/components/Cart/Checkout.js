@@ -13,6 +13,15 @@ function Checkout(props) {
                 <label htmlFor="street">Street</label>
                 <input type="text" id="street" />
             </div>
+            <div className={classes.control}>
+                <label htmlFor="zipcode">Zip code</label>
+                <input type="text" id="zipcode" />
+            </div>
+            <div className={classes.control}>
+                <label htmlFor="city">City</label>
+                <input type="text" id="city" />
+            </div>
+            <button>Confirm</button>
         </form>
     );
 }
