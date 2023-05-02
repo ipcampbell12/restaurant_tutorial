@@ -57,7 +57,7 @@ const Checkout = (props) => {
             return;
         }
 
-        //Submit
+        props.onConfirm()
 
     };
 

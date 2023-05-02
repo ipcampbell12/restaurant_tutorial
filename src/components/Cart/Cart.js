@@ -24,6 +24,10 @@ const Cart = (props) => {
   const orderHandler = () => {
     setIsCheckout(true)
   }
+
+  const submitOrderHandler = (userData) => {
+
+  }
   //need curly brace if more than one epxression
   // Cart.items.map((item) => {
   //   if ( a> 0) {
@@ -67,7 +71,7 @@ const Cart = (props) => {
         <span>Total Amount</span>
         <span>{totalAmount}</span>
       </div>
-      {isCheckout && <Checkout onCancel={props.onClose} />}
+      {isCheckout && <Checkout onConfirm={submitOrderHandler} onCancel={props.onClose} />}
       {!isCheckout && modalActions}
 
     </Modal>
