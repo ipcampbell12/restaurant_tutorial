@@ -49,6 +49,7 @@ const Cart = (props) => {
     </ul>
   );
 
+  //modal actions up here to keep jsx return statement lean
   const modalActions = (
     <div className={classes.actions}>
       <button className={classes['button--alt']} onClick={props.onClose}>
@@ -66,7 +67,7 @@ const Cart = (props) => {
         <span>Total Amount</span>
         <span>{totalAmount}</span>
       </div>
-      {isCheckout && <Checkout />}
+      {isCheckout && <Checkout onCancel={props.onClose} />}
       {!isCheckout && modalActions}
 
     </Modal>
