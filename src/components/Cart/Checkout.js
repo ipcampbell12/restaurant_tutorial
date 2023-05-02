@@ -3,6 +3,7 @@ import classes from './Checkout.module.css';
 
 
 //useRef - don't get values with every key stroke, only get values once form is submitted
+//use refs to read whatever user entered when form is submitted
 
 const Checkout = (props) => {
     const nameInputRef = useRef();
@@ -12,6 +13,12 @@ const Checkout = (props) => {
 
     const confirmHandler = (event) => {
         event.preventDefault();
+
+        //current prop gives access to value stored in ref
+        const enteredName = nameInputRef.current.value;
+        const enteredStreet = streetInputRef.current.value;
+        const enteredPostal = postalInputRef.current.value;
+        const enteredCity = cityInputRef.current.value;
     };
 
     return (
