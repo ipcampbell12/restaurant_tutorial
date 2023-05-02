@@ -61,27 +61,29 @@ const Checkout = (props) => {
 
     };
 
+    const controlClasses = (field) => `${classes.control} ${formInputsValidity[`${field}`] ? '' : classes.invalid}`;
+
     return (
         <form className={classes.form} onSubmit={confirmHandler}>
-            <div className={`${classes.control} ${formInputsValidity.name ? '' : classes.invalid}`}>
+            <div className={controlClasses('name')}>
                 <label htmlFor='name'>Your Name</label>
                 <input type='text' id='name' ref={nameInputRef} />
-                {!formInputsValidity.name && <p> Please entere a valid name</p>}
+                {!formInputsValidity.name && <p> Please enter a valid name</p>}
             </div>
-            <div className={`${classes.control} ${formInputsValidity.street ? '' : classes.invalid}`}>
+            <div className={controlClasses('street')}>
                 <label htmlFor='street'>Street</label>
                 <input type='text' id='street' ref={streetInputRef} />
-                {!formInputsValidity.street && <p> Please entere a valid street</p>}
+                {!formInputsValidity.street && <p> Please enter a valid street</p>}
             </div>
-            <div className={`${classes.control} ${formInputsValidity.postal ? '' : classes.invalid}`}>
+            <div className={controlClasses('postal')}>
                 <label htmlFor='postal'>Postal Code</label>
                 <input type='text' id='postal' ref={postalInputRef} />
-                {!formInputsValidity.postal && <p> Please entere a valid postal code (5 digits)</p>}
+                {!formInputsValidity.postal && <p> Please enter a valid postal code (5 digits)</p>}
             </div>
-            <div className={`${classes.control} ${formInputsValidity.city ? '' : classes.invalid}`}>
+            <div className={controlClasses('city')}>
                 <label htmlFor='city'>City</label>
                 <input type='text' id='city' ref={cityInputRef} />
-                {!formInputsValidity.city && <p> Please entere a valid city</p>}
+                {!formInputsValidity.city && <p> Please enter a valid city</p>}
             </div>
             <div className={classes.actions}>
                 <button type='button' onClick={props.onCancel}>
