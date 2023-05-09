@@ -38,6 +38,7 @@ const Cart = (props) => {
     });
     setIsSubmitting(false);
     setDidSubmit(true)
+    cartCtx.clearCart()
 
   };
   //need curly brace if more than one epxression
