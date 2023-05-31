@@ -1,4 +1,4 @@
-import { React, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import Modal from '../UI/Modal';
 import CartItem from './CartItem';
@@ -7,10 +7,10 @@ import CartContext from '../../store/cart-context';
 import Checkout from './Checkout';
 
 const Cart = (props) => {
+  const [isCheckout, setIsCheckout] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [didSubmit, setDidSubmit] = useState(false);
   const cartCtx = useContext(CartContext);
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [didSubmit, setDidSubmit] = useState(false)
-  const [isCheckout, setIsCheckout] = useState(false)
 
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
   const hasItems = cartCtx.items.length > 0;
@@ -20,36 +20,26 @@ const Cart = (props) => {
   };
 
   const cartItemAddHandler = (item) => {
-    cartCtx.addItem({ ...item, amount: 1 });
+    cartCtx.addItem(item);
   };
 
   const orderHandler = () => {
-    setIsCheckout(true)
-  }
+    setIsCheckout(true);
+  };
 
   const submitOrderHandler = async (userData) => {
-    setIsSubmitting(true)
-    await fetch('https://react-http-fd0fb-default-rtdb.firebaseio.com/orders.json', {
+    setIsSubmitting(true);
+    await fetch('https://react-http-fd0fb-default-rtdb.firebaseio.com/', {
       method: 'POST',
       body: JSON.stringify({
         user: userData,
-        orderedItems: cartCtx.items
-      })
+        orderedItems: cartCtx.items,
+      }),
     });
     setIsSubmitting(false);
-    setDidSubmit(true)
-    cartCtx.clearCart()
-
+    setDidSubmit(true);
+    cartCtx.clearCart();
   };
-  //need curly brace if more than one epxression
-  // Cart.items.map((item) => {
-  //   if ( a> 0) {
-  //     return <SomeCompoennt />
-  //   }
-  //   return <CartItem />
-  // });
-
-  // is equivalent to
 
   const cartItems = (
     <ul className={classes['cart-items']}>
@@ -66,43 +56,51 @@ const Cart = (props) => {
     </ul>
   );
 
-  //modal actions up here to keep jsx return statement lean
   const modalActions = (
     <div className={classes.actions}>
       <button className={classes['button--alt']} onClick={props.onClose}>
         Close
       </button>
-      {hasItems && <button className={classes.button} onClick={orderHandler}>Order</button>}
+      {hasItems && (
+        <button className={classes.button} onClick={orderHandler}>
+          Order
+        </button>
+      )}
     </div>
   );
 
+  const cartModalContent = (
+    <React.Fragment>
+      {cartItems}
+      <div className={classes.total}>
+        <span>Total Amount</span>
+        <span>{totalAmount}</span>
+      </div>
+      {isCheckout && (
+        <Checkout onConfirm={submitOrderHandler} onCancel={props.onClose} />
+      )}
+      {!isCheckout && modalActions}
+    </React.Fragment>
+  );
 
-  const cartModalContent = <React.Fragment>
-    {cartItems}
-    <div className={classes.total}>
-      <span>Total Amount</span>
-      <span>{totalAmount}</span>
-    </div>
-    {isCheckout && <Checkout onConfirm={submitOrderHandler} onCancel={props.onClose} />}
-    {!isCheckout && modalActions}
-  </React.Fragment>
+  const isSubmittingModalContent = <p>Sending order data...</p>;
 
-  const isSubmittingModalContent = <p>Sending order data ...</p>;
+  const didSubmitModalContent = (
+    <React.Fragment>
+      <p>Successfully sent the order!</p>
+      <div className={classes.actions}>
+        <button className={classes.button} onClick={props.onClose}>
+          Close
+        </button>
+      </div>
+    </React.Fragment>
+  );
 
-  const didSubmitModalContnet = <React.Fragment><p> Successfully sent the order! </p>;
-    <div className={classes.actions}>
-      <button className={classes.button} onClick={props.onClose}>
-        Close
-      </button>
-    </div>
-  </React.Fragment>
-  //parens just for syntatical purposes
   return (
     <Modal onClose={props.onClose}>
-
       {!isSubmitting && !didSubmit && cartModalContent}
       {isSubmitting && isSubmittingModalContent}
-      {!isSubmitting && didSubmit && didSubmitModalContnet}
+      {!isSubmitting && didSubmit && didSubmitModalContent}
     </Modal>
   );
 };

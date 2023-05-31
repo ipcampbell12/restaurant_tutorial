@@ -18,6 +18,7 @@ const cartReducer = (state, action) => {
     const existingCartItem = state.items[existingCartItemIndex];
     let updatedItems;
 
+    // if you are adding more of the same item to the cart, find that item and increase the quanitty
     if (existingCartItem) {
       const updatedItem = {
         ...existingCartItem,
